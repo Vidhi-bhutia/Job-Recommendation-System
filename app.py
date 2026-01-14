@@ -135,6 +135,6 @@ def search():
 
 
 if __name__ == "__main__":
-	print("Starting Job Scout Flask app...")
+	print("Starting TalentFlow AI...")
 	print("Open http://localhost:5000 in your browser")
 	app.run(debug=True, host="0.0.0.0", port=5000)
