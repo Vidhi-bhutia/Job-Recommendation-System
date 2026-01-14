@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TalentFlow AI - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Specific styles for landing page */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
+        .landing-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: var(--primary);
+            color: white;
+            padding: 20px 48px;
+            border-radius: 99px;
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 40px;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 20px rgba(15, 57, 59, 0.15);
+        }
+
+        .landing-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(15, 57, 59, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: #e0f2f1;
+            box-shadow: none;
+        }
+
+        /* Trust Stats */
+        .stats-row {
+            display: flex;
+            gap: 60px;
+            margin-top: 80px;
+            border-top: 1px solid var(--border);
+            padding-top: 40px;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* Features Grid */
+        .features-section {
+            background: #fcfcfc;
+            padding: 80px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .features-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            padding: 24px;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: #e0f2f1;
+            color: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .feature-desc {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">T</div>
+            TalentFlow AI
+        </a>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-tags">
+            <span>AI-Powered</span>
+            <span>•</span>
+            <span>Global Reach</span>
+            <span>•</span>
+            <span>Precision Match</span>
+        </div>
+
+        <h1>Discover opportunities that<br>define you.</h1>
+        <p class="subtitle">Our high-level neural engine scans LinkedIn and Workday to bring you the perfect match based
+            on your unique DNA.</p>
+
+        <a href="{{ url_for('details') }}" class="landing-btn">Start Global Scan</a>
+    </section>
+
+    <section class="features-section">
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <div class="feature-title">AI Compatibility</div>
+                <div class="feature-desc">Our Gemini integration analyzes your resume against thousands of jobs to find
+                    the perfect fit.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Instant Tips</div>
+                <div class="feature-desc">Get actionable advice on how to improve your resume for specific roles
+                    instantly.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">Precision Search</div>
+                <div class="feature-desc">Filter by role, location, and seniority to cut through the noise.</div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

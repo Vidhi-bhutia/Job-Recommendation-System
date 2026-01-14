@@ -1,5 +1,7 @@
-streamlit
-openai
+flask
+google-generativeai
 pymupdf
 python-dotenv
-apify-client
+requests
+beautifulsoup4
+selenium

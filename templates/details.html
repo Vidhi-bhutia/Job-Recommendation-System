@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TalentFlow AI - Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">T</div>
+            TalentFlow AI
+        </a>
+    </header>
+
+    <main>
+        <h1>Tell us about your next role.</h1>
+        <p class="subtitle">Enter your job preferences and upload your resume for the AI matching engine.</p>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}<div class="flash">{{ messages[0] }}</div>{% endif %}
+        {% endwith %}
+
+        <div class="form-container">
+            <form action="{{ url_for('search') }}" method="POST" enctype="multipart/form-data">
+                <div class="form-grid">
+
+                    <div class="field-group">
+                        <label>Full Name</label>
+                        <input type="text" name="fullname" placeholder="E.g. Alexander Pierce" />
+                    </div>
+
+                    <div class="field-group">
+                        <label>Preferred Role</label>
+                        <input type="text" name="query" placeholder="E.g. Senior UX Designer" required />
+                    </div>
+
+                    <div class="field-group">
+                        <label>Location</label>
+                        <input type="text" name="location" placeholder="E.g. San Francisco, CA" value="India" />
+                    </div>
+
+                    <div class="field-group">
+                        <label>Experience Level</label>
+                        <select name="experience">
+                            <option>Mid-Level</option>
+                            <option>Entry-Level</option>
+                            <option>Senior-Level</option>
+                            <option>Executive</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <label>Target Salary Range</label>
+                        <input type="text" name="salary" placeholder="E.g. $120k - $160k" />
+                    </div>
+
+                    <div class="field-group">
+                        <label>Results per source</label>
+                        <input type="number" name="rows" value="5" min="1" max="20">
+                    </div>
+
+                    <div class="field-group full-width">
+                        <label>Platforms</label>
+                        <div class="sources-row">
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="sources" value="linkedin" checked> LinkedIn
+                            </label>
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="sources" value="workday" checked> Workday
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field-group full-width">
+                        <label>Resume / Portfolio (PDF)</label>
+                        <div class="upload-box" onclick="document.getElementById('resume').click()">
+                            <div class="upload-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                            </div>
+                            <div id="file-name" style="font-size: 14px; color: var(--muted); font-weight: 500;">
+                                Click to upload PDF
+                            </div>
+                            <input id="resume" name="resume" type="file" accept="application/pdf" style="display: none;"
+                                onchange="var name = this.files[0] ? this.files[0].name : 'Click to upload PDF'; document.getElementById('file-name').innerText = 'Selected: ' + name; document.getElementById('file-name').style.color = 'var(--primary)';" />
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Run Analysis & Search</button>
+            </form>
+        </div>
+    </main>
+
+</body>
+
+</html>

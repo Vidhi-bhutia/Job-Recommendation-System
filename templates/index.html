@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TalentFlow AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+  <header>
+    <a href="/" class="logo">
+      <div class="logo-icon">T</div>
+      TalentFlow AI
+    </a>
+    <!-- Nav links removed as per request -->
+  </header>
+
+  <main>
+    <h1>Discover opportunities that<br>define you.</h1>
+    <p class="subtitle">Our high-level neural engine scans LinkedIn and Workday to bring you the perfect match based on
+      your unique DNA.</p>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}<div class="flash">{{ messages[0] }}</div>{% endif %}
+    {% endwith %}
+
+    <div class="form-container">
+      <form action="{{ url_for('search') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-grid">
+
+          <!-- Visual: Full Name (Ignored) -->
+          <div class="field-group">
+            <label>Full Name</label>
+            <input type="text" name="fullname" placeholder="E.g. Alexander Pierce" />
+          </div>
+
+          <!-- Mapped: Preferred Role -> query -->
+          <div class="field-group">
+            <label>Preferred Role</label>
+            <input type="text" name="query" placeholder="E.g. Senior UX Designer" value="{{ query or '' }}" required />
+          </div>
+
+          <!-- Mapped: Location -> location -->
+          <div class="field-group">
+            <label>Location</label>
+            <input type="text" name="location" placeholder="E.g. San Francisco, CA" value="{{ location or 'India' }}" />
+          </div>
+
+          <!-- Visual: Experience Level (Ignored) -->
+          <div class="field-group">
+            <label>Experience Level</label>
+            <select name="experience">
+              <option>Mid-Level</option>
+              <option>Entry-Level</option>
+              <option>Senior-Level</option>
+              <option>Executive</option>
+            </select>
+          </div>
+
+          <!-- Visual: Salary (Ignored) -->
+          <div class="field-group">
+            <label>Target Salary Range</label>
+            <input type="text" name="salary" placeholder="E.g. $120k - $160k" />
+          </div>
+
+          <!-- Functional: Rows (Hidden or small) -->
+          <div class="field-group">
+            <label>Results per source</label>
+            <input type="number" name="rows" value="{{ rows or 5 }}" min="1" max="20">
+          </div>
+
+          <!-- Functional: Sources -->
+          <div class="field-group full-width">
+            <label>Platforms</label>
+            <div class="sources-row">
+              <label class="checkbox-pill">
+                <input type="checkbox" name="sources" value="linkedin" checked> LinkedIn
+              </label>
+              <label class="checkbox-pill">
+                <input type="checkbox" name="sources" value="workday" checked> Workday
+              </label>
+            </div>
+          </div>
+
+          <!-- Resume Upload -->
+          <div class="field-group full-width">
+            <label>Resume / Portfolio (PDF)</label>
+            <div class="upload-box" onclick="document.getElementById('resume').click()">
+              <div style="font-size: 24px; color: var(--muted);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+              </div>
+              <div style="font-size: 14px; color: var(--muted); font-weight: 500;">Click to upload PDF</div>
+              <input id="resume" name="resume" type="file" accept="application/pdf" style="display: none;"
+                onchange="this.parentElement.querySelector('div:last-child').innerText = 'Selected: ' + this.files[0].name" />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Start Global Scan</button>
+        <div style="margin-top: 16px; font-size: 13px; color: var(--muted); text-align: center; opacity: 0.7;">
+          Powered by Gemini AI • Scans LinkedIn & Workday
+        </div>
+      </form>
+    </div>
+  </main>
+
+  {% if resume_summary %}
+  <div class="results-container">
+    <div class="resume-summary-box">
+      <h3>Resume Analysis</h3>
+      <div style="white-space: pre-wrap;">{{ resume_summary }}</div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if jobs %}
+  <div class="results-container">
+    <h2
+      style="font-family: 'DM Serif Display', serif; text-align: center; margin-bottom: 40px; font-size: 32px; color: var(--text);">
+      Matches Found</h2>
+    {% for job in jobs %}
+    <div class="job-card">
+      <h3 class="job-title">{{ job.title }}</h3>
+      <div class="job-meta">
+        {{ job.company }} • {{ job.location }}
+        <span class="source-badge">{{ job.source }}</span>
+      </div>
+      <div class="job-snippet">{{ job.snippet }}</div>
+      {% if job.url %}
+      <a href="{{ job.url }}" target="_blank" class="job-link">View Opportunity &rarr;</a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</body>
+
+</html>

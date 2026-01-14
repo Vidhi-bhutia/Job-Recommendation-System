@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TalentFlow AI - Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">T</div>
+            TalentFlow AI
+        </a>
+        <a href="{{ url_for('details') }}" style="text-decoration: none; color: var(--muted); font-size: 14px;">New
+            Search &rarr;</a>
+    </header>
+
+    <main>
+        <!-- Resume Analysis Removed as per request -->
+
+        {% if jobs %}
+        <div class="results-container">
+            <h2 class="results-title">Matches Found</h2>
+            <div class="cards-grid">
+                {% for job in jobs %}
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">{{ job.title }}</h3>
+                        {% if job.match_score %}
+                        <div class="match-score" title="Resume Match: {{ job.match_score }}%">
+                            <svg viewBox="0 0 36 36">
+                                <path class="bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="progress" stroke-dasharray="{{ job.match_score }}, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                            <span>{{ job.match_score }}%</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="job-meta">
+                        {{ job.company }} • {{ job.location }}
+                        <span class="source-badge">{{ job.source }}</span>
+                    </div>
+
+                    {% if job.match_tips %}
+                    <div class="ai-tips">
+                        <div class="ai-tips-header">
+                            <span>✨ AI Tips to Improve Match</span>
+                        </div>
+                        <ul>
+                            {% for tip in job.match_tips %}
+                            <li>{{ tip }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <div class="job-snippet">{{ job.snippet }}</div>
+
+                    <div class="job-footer">
+                        {% if job.url %}
+                        <a href="{{ job.url }}" target="_blank" class="job-link">View Opportunity &rarr;</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="results-container">
+            <div style="text-align: center; color: var(--muted); padding: 40px;">
+                <h3>No matches found.</h3>
+                <p>Try adjusting your search criteria or checking back later.</p>
+                <a href="{{ url_for('details') }}" class="job-link">Try Again</a>
+            </div>
+        </div>
+        {% endif %}
+    </main>
+
+</body>
+
+</html>
